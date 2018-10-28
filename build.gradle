@@ -1,0 +1,21 @@
+group 'rpi_experiments'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin:'application'
+
+mainClassName = "com.rpi.experiments.Experiment"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/groups/public"
+    }
+}
+
+dependencies {
+    compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
