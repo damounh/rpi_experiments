@@ -1,9 +1,14 @@
 package com.rpi.experiments;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.pi4j.io.gpio.RaspiPin;
 import com.rpi.experiments.Actions.LEDToggling;
 
 public class Experiment {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Experiment.class);
+
     public static void main(String args[]) {
         final Experiment experimentInstance = new Experiment();
     }
@@ -13,12 +18,14 @@ public class Experiment {
     }
 
     public void performExperiment() {
-        LEDToggling ledToggling = new LEDToggling();
+        LOGGER.info("Performing experiment");
+
+        final LEDToggling ledToggling = new LEDToggling();
 
         try {
             ledToggling.performToggle(RaspiPin.GPIO_01, 1000);
         } catch(InterruptedException interruptedException) {
-            System.out.println(interruptedException);
+            LOGGER.error("Performing toggle was interrupted during sleep", interruptedException);
         }
     }
 }

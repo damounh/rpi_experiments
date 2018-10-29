@@ -1,5 +1,8 @@
 package com.rpi.experiments.Actions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -7,6 +10,8 @@ import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 
 public class LEDToggling {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LEDToggling.class);
+
     private static final int TIMES_TO_TOGGLE = 5;
 
     private final GpioController gpio;
@@ -27,22 +32,22 @@ public class LEDToggling {
         // set shutdown state for this pin
         pin.setShutdownOptions(true, PinState.LOW);
 
-        System.out.println("--> GPIO state should be: ON");
+        LOGGER.info("--> GPIO state should be: ON");
 
         Thread.sleep(1000);
 
         // turn off gpio pin
         pin.low();
-        System.out.println("--> GPIO state should be: OFF");
+        LOGGER.info("--> GPIO state should be: OFF");
         for (int i = 0; i < TIMES_TO_TOGGLE;i++) {
             Thread.sleep(delayInMillis);
 
             // toggle the current state of gpio pin
             pin.toggle();
-            System.out.println("--> GPIO state toggled");
+            LOGGER.info("--> GPIO state toggled");
         }
 
         gpio.shutdown();
-        System.out.println("Exiting ControlGpioExample");
+        LOGGER.info("Exiting ControlGpioExample");
     }
 }

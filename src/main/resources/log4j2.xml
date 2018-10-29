@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <Property name="log-path">output/logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%d{dd MMM yyyy HH:mm:ss,SSS} [%p] %X{RequestId} (%t) %c: %m%n</pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="APPLICATION"
+                     filePattern="${log-path}/application.log.%d{yyyy-MM-dd-HH}">
+            <PatternLayout>
+                <pattern>%d{dd MMM yyyy HH:mm:ss,SSS} [%p] %X{RequestId} (%t) %c: %m%n</pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="500" />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="APPLICATION"/>
+        </Root>
+    </Loggers>
+</Configuration>
