@@ -9,14 +9,14 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 
-public class LEDToggling {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LEDToggling.class);
+public class PinToggling {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PinToggling.class);
 
     private static final int TIMES_TO_TOGGLE = 5;
 
     private final GpioController gpio;
 
-    public LEDToggling() {
+    public PinToggling() {
         gpio = GpioFactory.getInstance();
     }
 
@@ -27,7 +27,7 @@ public class LEDToggling {
      * @throws InterruptedException
      */
     public void performToggle(final Pin pinToToggle, final int delayInMillis) throws InterruptedException {
-        final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(pinToToggle, "MyLED", PinState.HIGH);
+        final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(pinToToggle, "MyPin", PinState.HIGH);
 
         // set shutdown state for this pin
         pin.setShutdownOptions(true, PinState.LOW);

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pi4j.io.gpio.RaspiPin;
-import com.rpi.experiments.Actions.LEDToggling;
+import com.rpi.experiments.Actions.PinToggling;
 
 public class Experiment {
     private static final Logger LOGGER = LoggerFactory.getLogger(Experiment.class);
@@ -20,10 +20,10 @@ public class Experiment {
     public void performExperiment() {
         LOGGER.info("Performing experiment");
 
-        final LEDToggling ledToggling = new LEDToggling();
+        final PinToggling pingToggling = new PinToggling();
 
         try {
-            ledToggling.performToggle(RaspiPin.GPIO_01, 1000);
+            pingToggling.performToggle(RaspiPin.GPIO_01, 1000);
         } catch(InterruptedException interruptedException) {
             LOGGER.error("Performing toggle was interrupted during sleep", interruptedException);
         }
