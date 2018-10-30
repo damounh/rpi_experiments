@@ -13,6 +13,8 @@ import com.rpi.experiments.Sensors.MotionTracker.MPU9265.MPU9265MotionSensor;
 import com.rpi.experiments.Sensors.MotionTracker.MotionTrackers;
 import com.rpi.experiments.Sensors.MotionTracker.MultiAxisMotionSensor;
 import com.rpi.experiments.Sensors.MotionTracker.UnsupportedMotionTrackerException;
+import com.rpi.experiments.signalprocessing.Filter;
+import com.rpi.experiments.signalprocessing.LowPassFilter;
 
 public class Experiment {
     private static final Logger LOGGER = LoggerFactory.getLogger(Experiment.class);
@@ -23,7 +25,6 @@ public class Experiment {
 
     public Experiment() {
         performExperiment();
-        experimentMotionSensor();
     }
 
     private void experimentMotionSensor() {
@@ -32,6 +33,9 @@ public class Experiment {
             MultiAxisMotionSensor multiAxisMotionSensor = new MPU9265MotionSensor();
             multiAxisMotionSensor.initializeSensor();
             multiAxisMotionSensor.configureDeviceRegisters();
+
+            final Filter lowPassFilterXRotation = new LowPassFilter(0.2f);
+            final Filter lowPassFilterYRotation = new LowPassFilter(0.2f);
             while(true) {
                 int val_x = getVal(multiAxisMotionSensor, Axis.X_AXIS_H, Axis.X_AXIS_L);
                 int val_y = getVal(multiAxisMotionSensor, Axis.Y_AXIS_H, Axis.Y_AXIS_L);
@@ -48,6 +52,9 @@ public class Experiment {
                 double y_rotation = get_y_rotation(accel_xout_scaled,
                         accel_yout_scaled,
                         accel_zout_scaled);
+
+                x_rotation = lowPassFilterXRotation.filter(x_rotation);
+                y_rotation = lowPassFilterYRotation.filter(y_rotation);
 
                 LOGGER.info("x_rotation: " + x_rotation + ", y_rotation: " + y_rotation);
                 Thread.sleep(5);
@@ -91,8 +98,6 @@ public class Experiment {
     }
 
     public void performExperiment() {
-        LOGGER.info("Performing experiment");
-
         final PinToggling pingToggling = new PinToggling();
 
         try {
@@ -100,5 +105,7 @@ public class Experiment {
         } catch(InterruptedException interruptedException) {
             LOGGER.error("Performing toggle was interrupted during sleep", interruptedException);
         }
+
+        experimentMotionSensor();
     }
 }
