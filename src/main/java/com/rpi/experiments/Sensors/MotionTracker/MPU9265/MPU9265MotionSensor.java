@@ -28,6 +28,10 @@ import com.rpi.experiments.Sensors.MotionTracker.MotionTrackers;
 import com.rpi.experiments.Sensors.MotionTracker.MultiAxisMotionSensor;
 import com.rpi.experiments.Sensors.MotionTracker.UnsupportedMotionTrackerException;
 
+/**
+ * This code is based off Kaputnik120 project:
+ * https://github.com/Kaputnik120/AllProjects/blob/MPU/Pathfinder/src/main/java/de/buschbaum/java/pathfinder/device/mpu6050/Mpu6050Controller.java
+ */
 public class MPU9265MotionSensor implements MultiAxisMotionSensor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPU9265MotionSensor.class);
     private static final int DEVICE_LOCATION = 0x68;
@@ -36,7 +40,6 @@ public class MPU9265MotionSensor implements MultiAxisMotionSensor {
 
     private I2CBus bus;
     private I2CDevice mpu9265;
-
 
     @Override
     public byte readValue(final MotionTrackers motionTrackerType, final Axis axis) throws UnsupportedMotionTrackerException, IOException {
